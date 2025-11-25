@@ -20,4 +20,11 @@ public class ConstantTestValue {
 
 	public static final String ERROR_MSG_FAIL_LOGIN = "*ログインに失敗しました。";
 
+	public static final String LMS_RE_LOGIN_URL = "http://localhost:8080/lms/login";
+
+	public static final String LMS_COURSE_DETAIL_URL = "http://localhost:8080/lms/course/detail";
+
+	public static final String LMS_HELP_URL = "http://localhost:8080/lms/help";
+
+	public static final String LMS_FAQ_URL = "http://localhost:8080/lms/faq";
 }

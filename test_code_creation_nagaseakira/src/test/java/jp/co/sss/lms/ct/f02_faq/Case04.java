@@ -1,6 +1,10 @@
 package jp.co.sss.lms.ct.f02_faq;
 
+import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +13,8 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * 結合テスト よくある質問機能
@@ -23,6 +29,7 @@ public class Case04 {
 	@BeforeAll
 	static void before() {
 		createDriver();
+		setWaitTime();
 	}
 
 	/** 後処理 */
@@ -36,6 +43,13 @@ public class Case04 {
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
 		// TODO ここに追加
+		goTo(LMS_LOGIN_URL);
+		// 10秒待機
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "transitionLogin_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LOGIN_URL);
 	}
 
 	@Test
@@ -43,6 +57,24 @@ public class Case04 {
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
 		// TODO ここに追加
+		//要素の取得
+		WebElement loginId = webDriver.findElement(By.name("loginId"));
+		WebElement password = webDriver.findElement(By.name("password"));
+		WebElement loginButton = webDriver.findElement(By.xpath("//input[@value='ログイン']"));
+
+		//要素の入力
+		loginId.sendKeys(EXIST_STUDENT_ID);
+		password.sendKeys(EXIST_STUDENT_PASS);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeLogin_1");
+		loginButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterLogin_2");
+
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_COURSE_DETAIL_URL);
 	}
 
 	@Test
@@ -50,6 +82,19 @@ public class Case04 {
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
 		// TODO ここに追加
+		//要素の取得
+		WebElement functionButton = webDriver.findElement(By.className("dropdown-toggle"));
+		functionButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeClickHelp_1");
+		//プルダウンのヘルプを取得
+		webDriver.findElement(By.xpath("//a[text()='ヘルプ']")).click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickHelp_2");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_HELP_URL);
 	}
 
 	@Test
@@ -57,6 +102,17 @@ public class Case04 {
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
 		// TODO ここに追加
+		//よくある質問の取得
+		webDriver.findElement(By.xpath("//a[text()='よくある質問']")).click();
+		//別タブに切り替え
+		Object[] windowHandles = webDriver.getWindowHandles().toArray();
+		webDriver.switchTo().window((String) windowHandles[1]);
+		//エビデンス取得・テスト
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickFAQ_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_FAQ_URL);
 	}
 
 }
