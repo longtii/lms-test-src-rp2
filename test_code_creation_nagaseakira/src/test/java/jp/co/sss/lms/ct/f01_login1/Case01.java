@@ -2,6 +2,7 @@ package jp.co.sss.lms.ct.f01_login1;
 
 import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,8 +13,6 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト ログイン機能①
@@ -45,9 +44,11 @@ public class Case01 {
 		goTo(LMS_LOGIN_URL);
 		//10秒待機
 
-		WebDriverUtils.webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
-		});
+		}, "transitionLogin");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LOGIN_URL);
 	}
 
 }
