@@ -11,6 +11,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -128,6 +129,13 @@ public class WebDriverUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	//検索結果欄にスクロールするために使用する要素
+	public static void scrollByClassName(String str) {
+		WebElement searchBoxElem = webDriver.findElement(By.className(str));
+		int searchBoxheight = searchBoxElem.getSize().getHeight();
+		WebDriverUtils.scrollBy(String.valueOf(searchBoxheight));
 	}
 
 }

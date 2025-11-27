@@ -27,4 +27,6 @@ public class ConstantTestValue {
 	public static final String LMS_HELP_URL = "http://localhost:8080/lms/help";
 
 	public static final String LMS_FAQ_URL = "http://localhost:8080/lms/faq";
+
+	public static final String SEARCH_KEYWORD = "セルフ";
 }
